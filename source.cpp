@@ -1,22 +1,99 @@
 #include <iostream>
 #include "Vector.h"
 
-Vector::Vector(){
-	m_size = 0;
-	m_capacity = 15;
+Vector::Vector()
+	:m_size(0)
+	,m_capacity(0)
+	,m_arr(nullptr)
+	{}
+
+Vector::Vector(const Vector& arg) {
+	if(this->m_arr) {
+		delete[] this->m_arr;
+		this->m_arr = nullptr;
+	}
+	this->m_size = arg.m_size;
+	this->m_capacity = arg.m_capacity;
+	this->m_arr = new int[this->m_capacity];
+	for(int i = 0; i < this->m_size; ++i){
+		this->m_arr[i] = arg.m_arr[i];
+	}
+}
+
+Vector& Vector::operator=(const Vector& arg) {
+	if(this->m_arr) {
+		delete[] this->m_arr;
+		this->m_arr = nullptr;
+	} else {
+		this->m_capacity = arg.m_capacity;
+		this->m_size = arg.m_size;
+		this->m_arr = new int[this->m_capacity];
+		for(int i = 0; i < m_size; ++i){
+			this->m_arr[i] = arg.m_arr[i];
+		}
+	}
+	return *this;
+}
+
+Vector::Vector(Vector&& rhs)
+	:m_size(rhs.m_size)
+	,m_capacity(rhs.m_capacity)
+	,m_arr(rhs.m_arr)
+	{}
+
+Vector::~Vector(){
+	this->m_size = 0;
+	this->m_capacity = 0;
+	delete[] m_arr;
 	m_arr = nullptr;
 }
 
-Vector::Vector(const Vector& arg) {
-	if(this == &arg) {
-		return *this;
+void Vector::push_back(int value) {
+	if(!this->m_arr){
+		this->m_capacity = 1;
+		this->m_size = 1;
+		this->m_arr = new int[this->m_size];
+		this->m_arr[0] = value;
+	} else {
+		if(this->m_size + 1 >= this->m_capacity){
+			resize(this->m_size + 1);
+		}
+		this->m_arr[m_size++] = value;
 	}
-	this->m_size = arg.size;
-	this->m_capasity = arg.capacity;
-	arg.arr = new int[this->m_size];
-	for(int i = 0; i < this->m_size; ++i) {
-		this->arr[i] = arg.arr[i];
-	}
-	return arg;
 }
+
+void Vector::resize(int size) {
+	if(!(this->m_arr)){
+		this->m_capacity = size;
+		this->m_arr = new int[m_capacity];
+	} else {
+		this->m_capacity += size;
+		int* tmp = new int[this->m_capacity];
+		for(int i = 0; i < this->m_size; ++i){
+			tmp[i] = this->m_arr[i];
+		}
+		delete[] this->m_arr;
+		this->m_arr = tmp;
+		tmp = nullptr;
+	}
+}
+
+void Vector::print() {
+	for(int i = 0; i < this->m_size; ++i) {
+		std::cout << m_arr[i] << ",";
+	}
+}
+
+std::size_t Vector::size() const{
+	return this->m_size;
+}
+
+std::size_t Vector::capacity() const {
+	return this->m_capacity;
+}
+
+bool Vector::empty() const {
+	return !(this->m_arr); 
+}
+
 
