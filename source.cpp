@@ -62,6 +62,18 @@ void Vector::push_back(int value) {
 	}
 }
 
+void Vector::pop_back() {
+	if(!this->m_arr) {
+		return;
+	} else if(this->m_size > 1){
+		this->m_size -= 1;
+	} else if(this->m_size <= 1) {
+		this->m_size = 0;
+		this->m_capacity = 0;
+		this->m_arr = nullptr;
+	}
+}
+
 void Vector::resize(int size) {
 	if(!(this->m_arr)){
 		this->m_capacity = size;
@@ -84,15 +96,21 @@ void Vector::print() {
 	}
 }
 
-int& Vector::operator[](int index) {
+/*int& Vector::operator[](int index) throw(int){
 	try{
-		if(index < 0 || index > this->m_size - 1) {
-			throw 404;
-		}	 
-	}catch(...) {
-		std::cout << "Access denied!";
-	}
-	return m_arr[index];
+		if(index >= 0 || index < this->m_size){
+			return m_arr[index];
+		} else {
+			throw(index);
+		}
+	} catch (int e) {
+			std::cout << "Exception Occured: ";
+      	if(e<0)
+          std::cout << "index < 0\n";
+        else
+          std::cout << "index >= " << this->m_size << std::endl;
+        exit(1);
+			}
 }
 
 int& Vector::at(int index) {
@@ -104,7 +122,7 @@ int& Vector::at(int index) {
 		std::cout << "Access denied!";
 	}
 	return m_arr[index];
-}
+}*/
 
 std::size_t Vector::size() const{
 	return this->m_size;
@@ -117,4 +135,3 @@ std::size_t Vector::capacity() const {
 bool Vector::empty() const {
 	return !(this->m_arr); 
 }
-
