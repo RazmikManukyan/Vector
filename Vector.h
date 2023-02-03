@@ -8,16 +8,17 @@ private:
 	int* m_arr;
 public:
 	Vector();
-	Vector(const Vector& arg);
-	Vector& operator=(const Vector& arg);
-	Vector(Vector&& rhs);
+	Vector(const Vector&);
+	Vector& operator=(const Vector&);
+	Vector(Vector&&);
 	~Vector();
 
 	void push_back(int);
+	void pop_back();
 	void resize(int);
 	void print();
-	int& operator[](int);
-	int& at(int);
+	//int& operator[](int) throw(int);
+	//int& at(int);
 
 	std::size_t size() const;
 	std::size_t capacity() const;
@@ -25,4 +26,6 @@ public:
 };
 
 #endif
+
+
 
