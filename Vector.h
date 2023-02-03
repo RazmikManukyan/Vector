@@ -10,8 +10,15 @@ public:
 	Vector();
 	Vector(const Vector& arg);
 	Vector& operator=(const Vector& arg);
+	Vector(Vector&& rhs);
 	~Vector();
 
+	void push_back(int);
+	void resize(int);
+	void print();
+
+	std::size_t size() const;
+	std::size_t capacity() const;
 	bool empty() const; 
 };
 
