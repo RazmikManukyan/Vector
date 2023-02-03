@@ -14,3 +14,5 @@ public:
 
 	bool empty() const; 
 };
+
+#endif
