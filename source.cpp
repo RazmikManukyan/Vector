@@ -84,6 +84,28 @@ void Vector::print() {
 	}
 }
 
+int& Vector::operator[](int index) {
+	try{
+		if(index < 0 || index > this->m_size - 1) {
+			throw 404;
+		}	 
+	}catch(...) {
+		std::cout << "Access denied!";
+	}
+	return m_arr[index];
+}
+
+int& Vector::at(int index) {
+	try{
+		if(index < 0 || index > this->m_size - 1) {
+			throw 404;
+		}	 
+	}catch(...) {
+		std::cout << "Access denied!";
+	}
+	return m_arr[index];
+}
+
 std::size_t Vector::size() const{
 	return this->m_size;
 }
@@ -95,5 +117,4 @@ std::size_t Vector::capacity() const {
 bool Vector::empty() const {
 	return !(this->m_arr); 
 }
-
 
