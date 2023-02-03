@@ -16,6 +16,8 @@ public:
 	void push_back(int);
 	void resize(int);
 	void print();
+	int& operator[](int);
+	int& at(int);
 
 	std::size_t size() const;
 	std::size_t capacity() const;
@@ -23,3 +25,4 @@ public:
 };
 
 #endif
+
