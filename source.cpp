@@ -38,8 +38,11 @@ Vector& Vector::operator=(const Vector& arg) {
 Vector::Vector(Vector&& rhs)
 	:m_size(rhs.m_size)
 	,m_capacity(rhs.m_capacity)
-	,m_arr(rhs.m_arr)
-	{}
+	,m_arr(rhs.m_arr){
+		rhs.m_size = 0;
+		rhs.m_capacity = 0; 
+		rhs.m_arr = nullptr;
+	}
 
 Vector::~Vector(){
 	this->m_size = 0;
@@ -96,33 +99,74 @@ void Vector::print() {
 	}
 }
 
-/*int& Vector::operator[](int index) throw(int){
-	try{
-		if(index >= 0 || index < this->m_size){
-			return m_arr[index];
-		} else {
-			throw(index);
-		}
-	} catch (int e) {
-			std::cout << "Exception Occured: ";
-      	if(e<0)
-          std::cout << "index < 0\n";
-        else
-          std::cout << "index >= " << this->m_size << std::endl;
-        exit(1);
-			}
+void Vector::clear() {
+	this->m_size = 0;
+	this->m_arr = nullptr;
 }
 
-int& Vector::at(int index) {
-	try{
-		if(index < 0 || index > this->m_size - 1) {
-			throw 404;
-		}	 
-	}catch(...) {
-		std::cout << "Access denied!";
+int& Vector::front(){
+	if(!this->m_arr) {
+		throw "Access denied!";
+	}
+	return m_arr[0];
+}
+
+constexpr int& Vector::front() {
+	return m_arr[0];
+}
+
+const int& Vector::front() const {
+	return m_arr[0];
+}
+
+constexpr const int& Vector::front() const {
+	return m_arr[0];
+}
+
+int& Vector::back(){
+	if(!this->m_arr) {
+		throw "Access denied!";
+	}
+	return m_arr[m_size - 1];
+}
+
+constexpr int& Vector::back() {
+	return m_arr[m_size - 1];
+}
+
+const int& Vector::back() const {
+	return m_arr[m_size - 1];
+}
+
+constexpr const int& Vector::back() const {
+	return m_arr[m_size - 1];
+}
+
+int* Vector::data() {
+	return m_arr;
+}
+
+int& Vector::operator[](int index){
+	return m_arr[index];
+}
+
+const int& Vector::operator[](int index) const {
+	return m_arr[index];
+}
+
+int& Vector::at(std::size_t index) {
+	if(index >= m_size) {
+		throw "Access denied!";
 	}
 	return m_arr[index];
-}*/
+}
+
+const int& Vector::at(std::size_t index) const {
+	if(index >= m_size) {
+		throw "Access denied!";
+	}
+	return m_arr[index];
+}
 
 std::size_t Vector::size() const{
 	return this->m_size;
@@ -135,3 +179,4 @@ std::size_t Vector::capacity() const {
 bool Vector::empty() const {
 	return !(this->m_arr); 
 }
+
