@@ -17,15 +17,35 @@ public:
 	void pop_back();
 	void resize(int);
 	void print();
-	//int& operator[](int) throw(int);
-	//int& at(int);
+	void clear();
+	int& front();
+	constexpr int& front();
+	const int& front() const;
+	constexpr const int& front() const;
+	int& back();
+	constexpr int& back();
+	const int& back() const;
+	constexpr const int& back() const;
+	int* data();
+	int& operator[](int);
+	const int& operator[](int) const;
+	int& at(std::size_t);
+	const int& at(std::size_t) const;
 
 	std::size_t size() const;
 	std::size_t capacity() const;
 	bool empty() const; 
+
+	public:
+		class iterator {
+			public:
+				iterator(int* ptr):ptr(ptr){}
+				
+			private:
+				int* ptr;
+		};	
 };
 
 #endif
-
 
 
