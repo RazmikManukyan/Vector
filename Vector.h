@@ -10,7 +10,8 @@ public:
 	Vector();
 	Vector(const Vector&);
 	Vector& operator=(const Vector&);
-	Vector(Vector&&);
+	Vector(Vector&&) noexcept;
+	Vector& operator=(Vector&&) noexcept;
 	~Vector();
 
 	void push_back(int);
@@ -18,6 +19,8 @@ public:
 	void resize(int);
 	void print();
 	void clear();
+	void swap(Vector&);
+	void swap(Vector&, Vector&);
 	int& front();
 	constexpr int& front();
 	const int& front() const;
@@ -47,5 +50,8 @@ public:
 };
 
 #endif
+
+
+
 
 
