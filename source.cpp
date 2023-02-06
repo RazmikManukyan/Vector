@@ -21,19 +21,27 @@ Vector::Vector(const Vector& arg) {
 }
 
 Vector& Vector::operator=(const Vector& rhs) {
+	if(this == &rhs) {
+		return *this;
+	}
 	Vector temp {rhs};
-	std::swap {temp}
+	std::swap (temp);
 	return *this;
 }
 
-Vector::Vector(Vector&& rhs)
-	:m_size(rhs.m_size)
-	,m_capacity(rhs.m_capacity)
-	,m_arr(rhs.m_arr){
-		rhs.m_size = 0;
-		rhs.m_capacity = 0; 
-		rhs.m_arr = nullptr;
+Vector::Vector(Vector&& rhs) noexcept{
+		std::swap(*this, rhs);
 	}
+
+Vector& Vector::operator=(Vector&& rhs) noexcept{
+	if(this == &rhs){
+		return *this;
+	}
+
+	std::swap(*this, rhs);
+	return *this;
+}
+
 
 Vector::~Vector(){
 	this->m_size = 0;
@@ -93,6 +101,16 @@ void Vector::print() {
 void Vector::clear() {
 	this->m_size = 0;
 	this->m_arr = nullptr;
+}
+
+void Vector::swap(Vector& other){
+	std::swap(m_size, other.m_size);
+	std::swap(m_capacity, other.m_capacity);
+	std::swap(m_arr, other.m_arr);
+}
+
+void Vector::swap(Vector& first, Vector& second) {
+	first.swap(second);
 }
 
 int& Vector::front(){
