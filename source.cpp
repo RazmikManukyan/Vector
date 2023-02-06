@@ -20,18 +20,9 @@ Vector::Vector(const Vector& arg) {
 	}
 }
 
-Vector& Vector::operator=(const Vector& arg) {
-	if(this->m_arr) {
-		delete[] this->m_arr;
-		this->m_arr = nullptr;
-	} else {
-		this->m_capacity = arg.m_capacity;
-		this->m_size = arg.m_size;
-		this->m_arr = new int[this->m_capacity];
-		for(int i = 0; i < m_size; ++i){
-			this->m_arr[i] = arg.m_arr[i];
-		}
-	}
+Vector& Vector::operator=(const Vector& rhs) {
+	Vector temp {rhs};
+	std::swap {temp}
 	return *this;
 }
 
