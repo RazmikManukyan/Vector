@@ -1,6 +1,4 @@
 #include <iostream>
-#include <cstddef>
-#include <utility>
 #include "Vector.h"
 
 Vector::Vector()
@@ -22,38 +20,29 @@ Vector::Vector(const Vector& arg) {
 	}
 }
 
-/*Vector& Vector::operator=(const Vector& rhs) {
-	if(this == &rhs) {
-		return *this;
+Vector& Vector::operator=(const Vector& arg) {
+	if(this->m_arr) {
+		delete[] this->m_arr;
+		this->m_arr = nullptr;
+	} else {
+		this->m_capacity = arg.m_capacity;
+		this->m_size = arg.m_size;
+		this->m_arr = new int[this->m_capacity];
+		for(int i = 0; i < m_size; ++i){
+			this->m_arr[i] = arg.m_arr[i];
+		}
 	}
-	Vector temp {rhs};
-	std::swap (temp);
-	return *this;
-}*/
-
-Vector::Vector(Vector&& rhs) {
-		std::swap(*this, rhs);
-	}
-
-Vector& Vector::operator=(Vector&& rhs){
-	if(this == &rhs){
-		return *this;
-	}
-
-	std::swap(*this, rhs);
 	return *this;
 }
 
-Vector::Vector(std::initializer_list<int> init)
-:m_size(init.size())
-,m_capacity(m_size) 
-{
-	m_arr = new int[m_size];
-	int count = 0;
-	for(auto& i :init) {
-		m_arr[count++] = i;
+Vector::Vector(Vector&& rhs)
+	:m_size(rhs.m_size)
+	,m_capacity(rhs.m_capacity)
+	,m_arr(rhs.m_arr){
+		rhs.m_size = 0;
+		rhs.m_capacity = 0; 
+		rhs.m_arr = nullptr;
 	}
-}
 
 Vector::~Vector(){
 	this->m_size = 0;
@@ -115,16 +104,6 @@ void Vector::clear() {
 	this->m_arr = nullptr;
 }
 
-void Vector::swap(Vector& other){
-	std::swap(m_size, other.m_size);
-	std::swap(m_capacity, other.m_capacity);
-	std::swap(m_arr, other.m_arr);
-}
-
-void Vector::swap(Vector& first, Vector& second) {
-	first.swap(second);
-}
-
 int& Vector::front(){
 	if(!this->m_arr) {
 		throw "Access denied!";
@@ -132,10 +111,34 @@ int& Vector::front(){
 	return m_arr[0];
 }
 
+constexpr int& Vector::front() {
+	return m_arr[0];
+}
+
+const int& Vector::front() const {
+	return m_arr[0];
+}
+
+constexpr const int& Vector::front() const {
+	return m_arr[0];
+}
+
 int& Vector::back(){
 	if(!this->m_arr) {
 		throw "Access denied!";
 	}
+	return m_arr[m_size - 1];
+}
+
+constexpr int& Vector::back() {
+	return m_arr[m_size - 1];
+}
+
+const int& Vector::back() const {
+	return m_arr[m_size - 1];
+}
+
+constexpr const int& Vector::back() const {
 	return m_arr[m_size - 1];
 }
 
@@ -165,52 +168,6 @@ const int& Vector::at(std::size_t index) const {
 	return m_arr[index];
 }
 
-int& Vector::operator->() const{
-	return *m_arr;
-}
-
-bool Vector::operator==(const Vector& oth) {
-	if(this == &oth) {
-		return true;
-	}
-	if(m_size != oth.m_size){
-		return false;
-	} else {
-		for(int i = 0; i < this->m_size; ++i) {
-			if (this->m_arr[i] != oth.m_arr[i]) {
-				return false;
-			}
-		}
-	}
-	return true;
-}
-
-bool Vector::operator!=(const Vector& oth) {
-	if(this == &oth) {
-		return false;
-	} else if (m_size != oth.m_size) {
-		return true;
-	} else {
-		for(int i = 0; i < m_size; ++i) {
-			if(m_arr[i] != oth.m_arr[i]) {
-				return true;
-			}
-		}
-	}
-	return false;	
-}
-
-bool Vector::operator>(const Vector& oth) {
-	for(int i = 0; i < m_size; ++i) {
-		if(this->m_arr[i] > oth.m_arr[i]) {
-			return true;
-		} else if(m_arr[i] < oth.m_arr[i]) {
-			return false;
-		}
-	}
-	return false;
-}
-
 std::size_t Vector::size() const{
 	return this->m_size;
 }
@@ -222,6 +179,4 @@ std::size_t Vector::capacity() const {
 bool Vector::empty() const {
 	return !(this->m_arr); 
 }
-
-
 

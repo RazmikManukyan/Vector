@@ -1,5 +1,4 @@
 #ifndef Vector_h
-#include <cstddef>
 #define Vector_h
 
 class Vector {
@@ -12,8 +11,6 @@ public:
 	Vector(const Vector&);
 	Vector& operator=(const Vector&);
 	Vector(Vector&&);
-	Vector& operator=(Vector&&);
-	Vector(std::initializer_list<int>);
 	~Vector();
 
 	void push_back(int);
@@ -21,19 +18,20 @@ public:
 	void resize(int);
 	void print();
 	void clear();
-	void swap(Vector&);
-	void swap(Vector&, Vector&);
 	int& front();
+	constexpr int& front();
+	const int& front() const;
+	constexpr const int& front() const;
 	int& back();
+	constexpr int& back();
+	const int& back() const;
+	constexpr const int& back() const;
 	int* data();
 	int& operator[](int);
 	const int& operator[](int) const;
 	int& at(std::size_t);
 	const int& at(std::size_t) const;
-	int& operator->() const;
-	bool operator==(const Vector&);
-	bool operator!=(const Vector&);
-	bool operator>(const Vector&);
+
 	std::size_t size() const;
 	std::size_t capacity() const;
 	bool empty() const; 
@@ -41,16 +39,13 @@ public:
 	public:
 		class iterator {
 			public:
-				iterator(int* ptr):m_iterator(ptr){}
+				iterator(int* ptr):ptr(ptr){}
 				
 			private:
-				int* m_iterator;
+				int* ptr;
 		};	
 };
 
 #endif
-
-
-
 
 
