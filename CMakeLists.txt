@@ -3,4 +3,5 @@ project(Vector)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(Vector main.cpp source.cpp)
+add_executable(Vector main.cpp source.cpp
+        source.cpp)

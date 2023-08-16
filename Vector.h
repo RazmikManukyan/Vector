@@ -13,13 +13,20 @@ public:
     Vector();
     Vector(const Vector&);
     Vector& operator=(const Vector&);
-    Vector(Vector&&);
+    Vector(Vector&&) noexcept ;
+    Vector(std::initializer_list<T> initList);
     ~Vector();
 
     void push_back(const T&);
     void pop_back();
     void resize(std::size_t);
     void print();
+    constexpr void shrink_to_fit();
+    void insert(std::size_t, const T&);
+    void insert(std::size_t, const T&, std::size_t);
+    void insert(std::size_t, const Vector<T>&);
+    void remove(std::size_t);
+    void remove(std::size_t, std::size_t);
     void clear();
     T& front();
     const T& front() const;
@@ -31,8 +38,8 @@ public:
     T& at(std::size_t);
     const T& at(std::size_t) const;
 
-    [[nodiscard]] std::size_t size() const;
-    [[nodiscard]] std::size_t capacity() const;
+    [[nodiscard]] std::size_t get_size() const;
+    [[nodiscard]] std::size_t get_capacity() const;
     [[nodiscard]] bool empty() const;
 
 public:
@@ -64,7 +71,7 @@ public:
         }
 
         bool operator!=(const iterator& other) const {
-            return !(*this == other);
+            return *this != other;
         }
 
     private:
@@ -80,4 +87,7 @@ public:
     }
 };
 
+
+
+#include "source.cpp"
 #endif
